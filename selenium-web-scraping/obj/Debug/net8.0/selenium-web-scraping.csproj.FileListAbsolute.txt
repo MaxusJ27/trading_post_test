@@ -37,3 +37,4 @@
 /Users/kingmaxus/Developer/trading_post/selenium-web-scraping/bin/Debug/net8.0/runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.dll
 /Users/kingmaxus/Developer/trading_post/selenium-web-scraping/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Drawing.Common.dll
 /Users/kingmaxus/Developer/trading_post/selenium-web-scraping/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll
+/Users/kingmaxus/Developer/trading_post/selenium-web-scraping/obj/Debug/net8.0/selenium-web-scraping.sourcelink.json

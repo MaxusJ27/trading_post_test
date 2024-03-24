@@ -31,7 +31,12 @@ namespace NumberGame
         }
         public override string ToString()
         {
-            return $"Name: {Name}, Score: {Score}";
+            return $"\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗" +
+       $"\n\t\t║                                    Player                                        ║" +
+       $"\n\t\t║                              {string.Format("{0,-52}", $"    Name: {Name}")}║" +
+       $"\n\t\t║                              {string.Format("{0,-52}", $"    Score: {Score}")}║" +
+       $"\n\t\t╚══════════════════════════════════════════════════════════════════════════════════╝";
+
         }
     }
 }

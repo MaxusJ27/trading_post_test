@@ -92,7 +92,7 @@ public class Game
             }
 
         } while (playerName?.Length > 8 || playerName?.Length <= 0);
-        Console.WriteLine($"\nPlayer created with the following details:\n{HumanPlayer.ToString()}");
+        Console.WriteLine($"\n{HumanPlayer.ToString()}");
     }
 
     public static bool CompareNumber(int guess)
@@ -290,9 +290,3 @@ public class Game
         DisplayTotalScore();
     }
 }
-// validate at every attempt 
-// player: 1, 3, 5, robot: 2, 4, 6, add an Attempt counter for Setting number of guesses
-// each round has 3 guesses god damn it
-// generate a random number for each round
-// numbers are generated starting between 1 and 100
-// gets smaller as round progresses, numbers are still automatically generated 

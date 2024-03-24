@@ -12,3 +12,4 @@
 /Users/kingmaxus/Developer/trading_post/numble_game/obj/Debug/net8.0/numble_game.pdb
 /Users/kingmaxus/Developer/trading_post/numble_game/obj/Debug/net8.0/numble_game.genruntimeconfig.cache
 /Users/kingmaxus/Developer/trading_post/numble_game/obj/Debug/net8.0/ref/numble_game.dll
+/Users/kingmaxus/Developer/trading_post/numble_game/obj/Debug/net8.0/numble_game.sourcelink.json
