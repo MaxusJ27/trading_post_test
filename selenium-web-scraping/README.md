@@ -14,5 +14,11 @@ The query selectors are found using inspect element, and copying it as CSS Selec
     <img src="inspecting_selectors.gif">
 </p>
 
+The cron job is set up as below to run every 24 hours:
 
-The result of the scrape can be found in the [excel file](excel/data.xslx).
+```
+crontab -e
+0 0 * * * [/path/to/](run_script.sh)
+```
+
+The result of the scrape can be found in the [excel file](excel/data.xlsx).

@@ -27,6 +27,9 @@ namespace NumberGame
 
         public int GetGuess(int round, int guessNumber)
         {
+            if (Guess[round, guessNumber] == 0) {
+                return -99;
+            }
             return Guess[round, guessNumber];
         }
         public override string ToString()
