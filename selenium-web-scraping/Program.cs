@@ -11,6 +11,9 @@ class Program
     /*
     * Write the categories into an excel file
     * @param url: the url of the website
+    /* Clicks on the Show More button, then retrieve the categories and the number of items
+    /* in each category
+    /* Add into a List tuple and write into an excel file
     */
     public static void writeCategories(string url)
     {
@@ -67,7 +70,7 @@ class Program
         driver.Quit();
     }
     /*
-    * Write the categories into an excel file
+    * Write the individual items in the landing page into an excel file
     * @param url: the url of the website
     */
     public static void writeItems(string url)

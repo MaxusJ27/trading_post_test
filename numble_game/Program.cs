@@ -9,11 +9,14 @@ public class Game
     // stores the possible range of values for comparison
     private static int MinRange = 1;
     private static int MaxRange = 100;
+
+    // number of attempts in a round
     private static int Attempt = 0;
-
+    // set the number abandon indicator
     private static int AbandonNumber = 7;
-    private static NumberGenerator generator = new NumberGenerator();
 
+    // initialize the random number generator class
+    private static NumberGenerator generator = new NumberGenerator();
 
     private static int GeneratedNumber;
 
@@ -22,7 +25,9 @@ public class Game
     private static Player ComputerPlayer;
 
     protected Game() { }
-
+    /*
+    /* map the current number of attempts to the score
+    */
     public static Hashtable ScoreMap()
     {
         // map of attempts to scores
@@ -36,6 +41,12 @@ public class Game
         };
         return attemptScoreMap;
     }
+
+    
+    /*
+    @param round: the current round number
+    /* Reset the values for the next round
+    */
     public static void ResetValues(int round)
     {
         Attempt = 0;
@@ -49,6 +60,10 @@ public class Game
         Console.WriteLine("\t\t║                                                                                  ║");
         Console.WriteLine("\t\t╚══════════════════════════════════════════════════════════════════════════════════╝");
     }
+
+    /*
+    /* Display the welcome message
+    */
     public static void DisplayWelcomeMessage()
     {
         Console.WriteLine("\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
@@ -68,7 +83,10 @@ public class Game
         Console.WriteLine("\t\t╚══════════════════════════════════════════════════════════════════════════════════╝");
 
     }
-
+    /*
+    /* Request the player's name, must be within 8 characters
+    /* Initialize the player objects
+    */
     public static void RequestPlayerName()
     {
 
@@ -94,6 +112,10 @@ public class Game
         Console.WriteLine($"\n{HumanPlayer.ToString()}");
     }
 
+    /*
+    @param guess: the player's guess
+    /* Compare the player's guess with the generated number
+    */
     public static bool CompareNumber(int guess)
     {
         if (guess == GeneratedNumber)
@@ -102,7 +124,11 @@ public class Game
         }
         return false;
     }
-
+    /*
+    @param round: the current round number
+    @param guessNumber: the current guess number
+    /* Request the player's guess for the current round and guess number
+    */
     public static void RequestPlayerGuess(int round, int guessNumber)
     {
         // end the round when the player decides to abandon the round
@@ -144,6 +170,11 @@ public class Game
         }
     }
 
+    /*
+    @param round : the current round number
+    @param guessNumber : the current guess number
+    /* Display the player's guess and the computer's guess
+    */
     public static void DisplayGuessResult(int round, int guessNumber)
     {
         string humanGuess;
@@ -162,46 +193,51 @@ public class Game
         Console.WriteLine($"\t\t║                                  {string.Format("{0,-48}", $"Player's guess: {humanGuess}")}║");
         Console.WriteLine($"\t\t║                                  {string.Format("{0,-48}", $"Computer's guess: {ComputerPlayer.GetGuess(round, guessNumber)}")}║");
         Console.WriteLine("\t\t╚══════════════════════════════════════════════════════════════════════════════════╝");
-
-
     }
-
+    /*
+    @param round : the current round number
+    @param guessNumber : the current guess number
+    /* Check the player's guess and the computer's guess
+    */
     public static bool CheckGuess(int round, int guessNumber)
     {
-
+        // if player abandons the round, then the computer obtains the score based on current attempt
         if (HumanPlayer.GetGuess(round, guessNumber) == 999)
         {
             Console.WriteLine("\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine($"\t\t║                     {string.Format("{0,-60}", $"You have decided to abandon this round.")} ║");
-            ComputerPlayer.Score += (int)ScoreMap()[Attempt - 1];
+            // ComputerPlayer.Score += (int)ScoreMap()[Attempt - 1];
+            ComputerPlayer.AddScore((int)ScoreMap()[Attempt - 1]);
             return true;
         }
-
-
+        // if computer abandons the game, then the player obtains the score based on the current attempt
         else if (ComputerPlayer.GetGuess(round, guessNumber) == 999)
         {
             Console.WriteLine("\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine($"\t\t║                     {string.Format("{0,-60}", $"The computer has decided to abandon this round.")} ║");
-            HumanPlayer.Score += (int)ScoreMap()[Attempt];
+            // HumanPlayer.Score += (int)ScoreMap()[Attempt];
+            HumanPlayer.AddScore((int)ScoreMap()[Attempt - 1]);
             return true;
         }
-
-
+        
         else if (CompareNumber(HumanPlayer.GetGuess(round, guessNumber)))
         {
             Console.WriteLine("\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine($"\t\t║                     {string.Format("{0,-60}", $"You guessed the number correctly for round {round}!")} ║");
-            HumanPlayer.Score += (int)ScoreMap()[Attempt];
+            // HumanPlayer.Score += (int)ScoreMap()[Attempt];
+            HumanPlayer.AddScore((int)ScoreMap()[Attempt - 1]);
             return true;
         }
         else if (CompareNumber(ComputerPlayer.GetGuess(round, guessNumber)))
         {
             Console.WriteLine("\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine($"\t\t║           {string.Format("{0,-64}", $"Oops! The computer guessed the number correctly! You lost round {round}!")}     ║");
-            ComputerPlayer.Score += (int)ScoreMap()[Attempt];
+            // ComputerPlayer.Score += (int)ScoreMap()[Attempt];
+            ComputerPlayer.AddScore((int)ScoreMap()[Attempt]);
             return true;
         }
-
+        // if the round reaches 3 guesses without anyone winning
+        // then the player with the closest guess wins the round
         if (guessNumber == 3)
         {
             int humanDistance = Math.Abs(HumanPlayer.GetGuess(round, guessNumber) - GeneratedNumber);
@@ -210,11 +246,13 @@ public class Game
             {
                 Console.WriteLine("\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
                 Console.WriteLine($"\t\t║         {string.Format("{0,-72}", $"Your answer was closer to the secret number, you won round {round}!")} ║");
-                HumanPlayer.Score += 1;
+                // HumanPlayer.Score += 1;
+                HumanPlayer.AddScore(1);
             }
             else if (humanDistance > computerDistance)
             {
-                ComputerPlayer.Score += 1;
+                // ComputerPlayer.Score += 1;
+                ComputerPlayer.AddScore(1);
                 Console.WriteLine("\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
                 Console.WriteLine($"\t\t║{string.Format("{0,-52}", $"  Oops! The computer's answer was closer to the secret number, you lost round {round}!")}  ║");
             }
@@ -227,16 +265,23 @@ public class Game
         }
         return false;
     }
-
+    /*
+    @param round : the current round number
+    /* Display the round score
+    */
     public static void DisplayRoundScore(int round)
     {
         Console.WriteLine($"\t\t║                              {string.Format("{0,-52}", $"    Round {round} score:")}║");
         Console.WriteLine($"\t\t║                                {string.Format("{0,-50}", $"Secret Number: {GeneratedNumber}")}║");
-        Console.WriteLine($"\t\t║                              {string.Format("{0,-52}", $"Player's Current Score: {HumanPlayer.Score}")}║");
-        Console.WriteLine($"\t\t║                            {string.Format("{0,-54}", $"Computer's Current Score: {ComputerPlayer.Score}")}║");
+        Console.WriteLine($"\t\t║                              {string.Format("{0,-52}", $"Player's Current Score: {HumanPlayer.GetScore()}")}║");
+        Console.WriteLine($"\t\t║                            {string.Format("{0,-54}", $"Computer's Current Score: {ComputerPlayer.GetScore()}")}║");
         Console.WriteLine("\t\t╚══════════════════════════════════════════════════════════════════════════════════╝");
     }
-
+    /*
+    @param guess: the player's guess
+    /* Set the range of possible values for the next guess
+    /* Computer generated value will also be based on the new range
+    */
     public static void SetRange(int guess)
     {
         Console.WriteLine("\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
@@ -254,17 +299,19 @@ public class Game
         Console.WriteLine("\t\t╚══════════════════════════════════════════════════════════════════════════════════╝");
     }
 
-
+    /*
+    /* Display the total score of the game at the end of 4 rounds
+    */
     public static void DisplayTotalScore()
     {
         Console.WriteLine("\n\n\t\t╔══════════════════════════════════════════════════════════════════════════════════╗");
         Console.WriteLine($"\t\t║                                        Game                                      ║");
-        Console.WriteLine($"\t\t║                          {string.Format("{0,-56}", $"Your Score: {HumanPlayer.Score}, Computer Score: {ComputerPlayer.Score}")}║");
-        if (HumanPlayer.Score > ComputerPlayer.Score)
+        Console.WriteLine($"\t\t║                          {string.Format("{0,-56}", $"Your Score: {HumanPlayer.GetScore()}, Computer Score: {ComputerPlayer.GetScore()}")}║");
+        if (HumanPlayer.GetScore() > ComputerPlayer.GetScore())
         {
         Console.WriteLine($"\t\t║                              {string.Format("{0,-52}", $"Congratulations, you WON!")}║");
         }
-        else if (HumanPlayer.Score < ComputerPlayer.Score)
+        else if (HumanPlayer.GetScore() < ComputerPlayer.GetScore())
         {
         Console.WriteLine($"\t\t║                                {string.Format("{0,-50}", $"Oops, you LOST the game!")}║");
         }
